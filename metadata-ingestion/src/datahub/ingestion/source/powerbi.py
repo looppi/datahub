@@ -245,6 +245,7 @@ class PowerBiAPI:
 
         id: str
         name: str
+        description: Optional[str]
         webUrl: Optional[str]
         workspace_id: str
         datasource: Any
@@ -596,6 +597,7 @@ class PowerBiAPI:
         return PowerBiAPI.Dataset(
             id=response_dict.get("id"),
             name=response_dict.get("name"),
+            description=response_dict.get("description", ""),
             webUrl="{}/details".format(response_dict.get("webUrl"))
             if response_dict.get("webUrl") is not None
             else None,
@@ -1175,7 +1177,11 @@ class Mapper:
 
             LOGGER.info(f"{Constant.Dataset_URN}={ds_urn}")
             # Create datasetProperties mcp
-            ds_properties = DatasetPropertiesClass(description=table.name)
+            ds_properties = DatasetPropertiesClass(
+                name=f"{dataset.name} - {table.name}",
+                description=f"{dataset.name} - {table.name}\n----\n{dataset.description}",
+                qualifiedName=f"{dataset.datasource.database}.{table.schema_name}.{table.name}"
+            )
 
             info_mcp = self.new_mcp(
                 entity_type=Constant.DATASET,

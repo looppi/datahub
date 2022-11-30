@@ -5,7 +5,7 @@
     "changeType": "UPSERT",
     "aspectName": "datasetProperties",
     "aspect": {
-        "value": "{\"customProperties\": {}, \"description\": \"issue_history\", \"tags\": []}",
+        "value": "{\"customProperties\": {}, \"name\": \"library-dataset - issue_history\", \"qualifiedName\": \"library_db.public.issue_history\", \"description\": \"library-dataset - issue_history\\n----\\n\", \"tags\": []}",
         "contentType": "application/json"
     },
     "systemMetadata": {
@@ -229,7 +229,7 @@
     "changeType": "UPSERT",
     "aspectName": "datasetProperties",
     "aspect": {
-        "value": "{\"customProperties\": {}, \"description\": \"issue_history\", \"tags\": []}",
+        "value": "{\"customProperties\": {}, \"name\": \"library-dataset - issue_history\", \"qualifiedName\": \"library_db.public.issue_history\", \"description\": \"library-dataset - issue_history\\n----\\n\", \"tags\": []}",
         "contentType": "application/json"
     },
     "systemMetadata": {
