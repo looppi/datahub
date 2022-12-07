@@ -5,7 +5,7 @@
     "changeType": "UPSERT",
     "aspectName": "datasetProperties",
     "aspect": {
-        "value": "{\"customProperties\": {}, \"name\": \"library-dataset - issue_history\", \"qualifiedName\": \"library_db.public.issue_history\", \"description\": \"library-dataset - issue_history\\n----\\n\", \"tags\": []}",
+        "value": "{\"customProperties\": {}, \"name\": \"library-dataset - issue_history\", \"qualifiedName\": \"library_db.public.issue_history\", \"description\": \"library-dataset - issue_history\\n----\\nLibrary Description\", \"tags\": []}",
         "contentType": "application/json"
     },
     "systemMetadata": {
@@ -89,7 +89,7 @@
     "changeType": "UPSERT",
     "aspectName": "dashboardInfo",
     "aspect": {
-        "value": "{\"customProperties\": {\"chartCount\": \"1\", \"workspaceName\": \"demo-workspace\", \"workspaceId\": \"7D668CAD-7FFC-4505-9215-655BCA5BEBAE\"}, \"title\": \"test_dashboard\", \"description\": \"test_dashboard\", \"charts\": [\"urn:li:chart:(powerbi,charts.B8E293DC-0C83-4AA0-9BB9-0A8738DF24A0)\"], \"datasets\": [], \"lastModified\": {\"created\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}, \"lastModified\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}}, \"dashboardUrl\": \"https://localhost/dashboards/web/1\"}",
+        "value": "{\"customProperties\": {\"chartCount\": \"1\", \"workspaceName\": \"demo-workspace\", \"workspaceId\": \"7D668CAD-7FFC-4505-9215-655BCA5BEBAE\"}, \"title\": \"test_dashboard\", \"description\": \"Test description\", \"charts\": [\"urn:li:chart:(powerbi,charts.B8E293DC-0C83-4AA0-9BB9-0A8738DF24A0)\"], \"datasets\": [], \"lastModified\": {\"created\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}, \"lastModified\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}}, \"dashboardUrl\": \"https://localhost/dashboards/web/1\"}",
         "contentType": "application/json"
     },
     "systemMetadata": {
@@ -145,7 +145,7 @@
     "changeType": "UPSERT",
     "aspectName": "dashboardInfo",
     "aspect": {
-        "value": "{\"customProperties\": {\"chartCount\": \"0\", \"workspaceName\": \"second-demo-workspace\", \"workspaceId\": \"7D668CAD-8FFC-4505-9215-655BCA5BEBAE\"}, \"title\": \"test_dashboard2\", \"description\": \"test_dashboard2\", \"charts\": [], \"datasets\": [], \"lastModified\": {\"created\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}, \"lastModified\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}}, \"dashboardUrl\": \"https://localhost/dashboards/web/1\"}",
+        "value": "{\"customProperties\": {\"chartCount\": \"0\", \"workspaceName\": \"second-demo-workspace\", \"workspaceId\": \"7D668CAD-8FFC-4505-9215-655BCA5BEBAE\"}, \"title\": \"test_dashboard2\", \"description\": \"Test description\", \"charts\": [], \"datasets\": [], \"lastModified\": {\"created\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}, \"lastModified\": {\"time\": 0, \"actor\": \"urn:li:corpuser:unknown\"}}, \"dashboardUrl\": \"https://localhost/dashboards/web/1\"}",
         "contentType": "application/json"
     },
     "systemMetadata": {

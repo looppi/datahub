@@ -65,6 +65,7 @@ def register_mock_api(request_mock):
                         "id": "7D668CAD-7FFC-4505-9215-655BCA5BEBAE",
                         "isReadOnly": True,
                         "displayName": "test_dashboard",
+                        "description": "Test description",
                         "embedUrl": "https://localhost/dashboards/embed/1",
                         "webUrl": "https://localhost/dashboards/web/1",
                     }
@@ -80,6 +81,7 @@ def register_mock_api(request_mock):
                         "id": "7D668CAD-8FFC-4505-9215-655BCA5BEBAE",
                         "isReadOnly": True,
                         "displayName": "test_dashboard2",
+                        "description": "Test description",
                         "embedUrl": "https://localhost/dashboards/embed/1",
                         "webUrl": "https://localhost/dashboards/web/1",
                     }
@@ -159,6 +161,7 @@ def register_mock_api(request_mock):
             "json": {
                 "id": "05169CD2-E713-41E6-9600-1D8066D95445",
                 "name": "library-dataset",
+                "description": "Library Description",
                 "webUrl": "http://localhost/groups/64ED5CAD-7C10-4684-8180-826122881108/datasets/05169CD2-E713-41E6-9600-1D8066D95445",
             },
         },

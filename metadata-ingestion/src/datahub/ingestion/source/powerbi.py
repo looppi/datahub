@@ -93,6 +93,7 @@ class Constant:
     DASHBOARD_ID = "powerbi.linkedin.com/dashboards/{}"
     DASHBOARD = "dashboard"
     DASHBOARD_KEY = "dashboardKey"
+    DESCRIPTION = "description"
     OWNERSHIP = "ownership"
     BROWSERPATH = "browsePaths"
     DASHBOARD_INFO = "dashboardInfo"
@@ -335,6 +336,7 @@ class PowerBiAPI:
     @dataclass
     class Dashboard:
         id: str
+        description: Optional[str]
         displayName: str
         embedUrl: str
         webUrl: str
@@ -469,7 +471,7 @@ class PowerBiAPI:
             name=response_dict.get("name"),
             webUrl=response_dict.get("webUrl"),
             embedUrl=response_dict.get("embedUrl"),
-            description=response_dict.get("description"),
+            description=response_dict.get("description", ""),
             users=[],
             pages=[],
             dataset=self.get_dataset(
@@ -546,6 +548,7 @@ class PowerBiAPI:
                 id=instance.get("id"),
                 isReadOnly=instance.get("isReadOnly"),
                 displayName=instance.get("displayName"),
+                description=instance.get(Constant.DESCRIPTION, ""),
                 embedUrl=instance.get("embedUrl"),
                 webUrl=instance.get("webUrl"),
                 workspace_id=workspace.id,
@@ -597,7 +600,7 @@ class PowerBiAPI:
         return PowerBiAPI.Dataset(
             id=response_dict.get("id"),
             name=response_dict.get("name"),
-            description=response_dict.get("description", ""),
+            description=response_dict.get(Constant.DESCRIPTION, ""),
             webUrl="{}/details".format(response_dict.get("webUrl"))
             if response_dict.get("webUrl") is not None
             else None,
@@ -872,7 +875,7 @@ class PowerBiAPI:
                 name=raw_instance.get("name"),
                 webUrl=raw_instance.get("webUrl"),
                 embedUrl=raw_instance.get("embedUrl"),
-                description=raw_instance.get("description"),
+                description=raw_instance.get("description", ""),
                 pages=self.get_pages_by_report(
                     workspace_id=workspace.id, report_id=raw_instance["id"]
                 ),
@@ -1307,7 +1310,7 @@ class Mapper:
 
         # DashboardInfo mcp
         dashboard_info_cls = DashboardInfoClass(
-            description=dashboard.displayName or "",
+            description=dashboard.description or "",
             title=dashboard.displayName or "",
             charts=chart_urn_list,
             lastModified=ChangeAuditStamps(),
