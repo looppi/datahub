@@ -7,7 +7,7 @@ from pydantic import validator
 from pydantic.class_validators import root_validator
 
 import datahub.emitter.mce_builder as builder
-from datahub.configuration.common import AllowDenyPattern
+from datahub.configuration.common import AllowDenyPattern, ConfigModel
 from datahub.configuration.source_common import DEFAULT_ENV
 from datahub.ingestion.source.state.stale_entity_removal_handler import (
     StaleEntityRemovalSourceReport,
@@ -56,11 +56,10 @@ class Constant:
     STATUS = "status"
     CHART_ID = "powerbi.linkedin.com/charts/{}"
     CHART_KEY = "chartKey"
-    COLUMN_TYPE = "columnType"
-    DATA_TYPE = "dataType"
     DASHBOARD = "dashboard"
     DASHBOARDS = "dashboards"
     DASHBOARD_KEY = "dashboardKey"
+    DESCRIPTION = "description"
     OWNERSHIP = "ownership"
     BROWSERPATH = "browsePaths"
     DASHBOARD_INFO = "dashboardInfo"
@@ -86,10 +85,8 @@ class Constant:
     EMBED_URL = "embedUrl"
     ACCESS_TOKEN = "access_token"
     IS_READ_ONLY = "isReadOnly"
-    IS_HIDDEN = "isHidden"
     WEB_URL = "webUrl"
     ODATA_COUNT = "@odata.count"
-    DESCRIPTION = "description"
     REPORT = "report"
     REPORTS = "reports"
     CREATED_FROM = "createdFrom"
@@ -140,6 +137,13 @@ class PlatformDetail:
     env: str = pydantic.Field(
         default=DEFAULT_ENV,
         description="The environment that all assets produced by DataHub platform ingestion source belong to",
+    )
+
+
+class PowerBiProfilingConfig(ConfigModel):
+    enabled: bool = pydantic.Field(
+        default=False,
+        description="Whether profiling should be done. Supports only table-level profiling at this stage",
     )
 
 
@@ -238,6 +242,13 @@ class PowerBiDashboardSourceConfig(StatefulIngestionConfigBase):
         description="Retrieve metadata using PowerBI Admin API only. If this is enabled, then Report Pages will not "
         "be extracted. Admin API access is required if this setting is enabled",
     )
+
+    profile_pattern: AllowDenyPattern = pydantic.Field(
+        default=AllowDenyPattern.allow_all(),
+        description="Regex patterns to filter tables for profiling during ingestion. Note that only tables "
+        "allowed by the `table_pattern` will be considered. Matched format is 'datasetname.tablename'",
+    )
+    profiling: PowerBiProfilingConfig = PowerBiProfilingConfig()
 
     @validator("dataset_type_mapping")
     @classmethod

@@ -25,6 +25,9 @@ from datahub.ingestion.source.powerbi.rest_api_wrapper.data_resolver import (
     AdminAPIResolver,
     RegularAPIResolver,
 )
+from datahub.ingestion.source.powerbi.rest_api_wrapper.powerbi_profiler import (
+    PowerBiDatasetProfilingResolver,
+)
 
 # Logger instance
 logger = logging.getLogger(__name__)
@@ -44,6 +47,13 @@ class PowerBiAPI:
             client_id=self.__config.client_id,
             client_secret=self.__config.client_secret,
             tenant_id=self.__config.tenant_id,
+        )
+
+        self.__profiling_resolver = PowerBiDatasetProfilingResolver(
+            client_id=self.__config.client_id,
+            client_secret=self.__config.client_secret,
+            tenant_id=self.__config.tenant_id,
+            config=self.__config,
         )
 
     def log_http_error(self, message: str) -> Any:
@@ -253,11 +263,12 @@ class PowerBiAPI:
 
         return [endorsement]
 
-    def _get_workspace_datasets(self, scan_result: Optional[dict]) -> dict:
+    def _get_workspace_datasets(self, workspace: Workspace) -> dict:
         """
         Filter out "dataset" from scan_result and return Dataset instance set
         """
         dataset_map: dict = {}
+        scan_result = workspace.scan_result
 
         if scan_result is None:
             return dataset_map
@@ -277,6 +288,10 @@ class PowerBiAPI:
             dataset_instance: PowerBIDataset = self._get_resolver().get_dataset(
                 workspace_id=scan_result[Constant.ID],
                 dataset_id=dataset_dict[Constant.ID],
+            )
+
+            self.__profiling_resolver.get_overview_stats(
+                dataset_instance, workspace.name
             )
 
             if self.__config.extract_endorsements_to_tags:
@@ -299,18 +314,23 @@ class PowerBiAPI:
                     and len(table[Constant.SOURCE]) > 0
                     else None
                 )
-                dataset_instance.tables.append(
-                    Table(
-                        name=table[Constant.NAME],
-                        full_name="{}.{}".format(
-                            dataset_name.replace(" ", "_"),
-                            table[Constant.NAME].replace(" ", "_"),
-                        ),
-                        expression=expression,
-                        columns=self.get_columns(table.get("columns", [])),
-                        measures=self.get_measures(table.get("measures", [])),
-                    )
+                table = Table(
+                    name=table[Constant.NAME],
+                    full_name="{}.{}".format(
+                        dataset_name.replace(" ", "_"),
+                        table[Constant.NAME].replace(" ", "_"),
+                    ),
+                    expression=expression,
+                    columns=self.get_columns(table.get("columns", [])),
+                    measures=self.get_measures(table.get("measures", [])),
+                    row_count=None,
+                    column_count=None,
                 )
+                self.__profiling_resolver.profile_dataset(
+                    dataset_instance, table, workspace.name
+                )
+
+                dataset_instance.tables.append(table)
 
         return dataset_map
 
@@ -319,10 +339,14 @@ class PowerBiAPI:
         results = []
         for measure in measures:
             ms = Measure(
-                name=measure.get(Constant.NAME),
-                description=measure.get(Constant.DESCRIPTION),
-                expression=measure.get(Constant.EXPRESSION),
-                is_hidden=measure.get(Constant.IS_HIDDEN, False),
+                name=measure.get("name", ""),
+                description=measure.get("description", ""),
+                expression=measure.get("expression", ""),
+                is_hidden=measure.get("isHidden", False),
+                min=None,
+                max=None,
+                unique_count=None,
+                sample_values=None,
             )
             results.append(ms)
 
@@ -333,11 +357,15 @@ class PowerBiAPI:
         results = []
         for column in columns:
             col = Column(
-                name=column.get(Constant.NAME),
-                description=column.get(Constant.DESCRIPTION),
-                data_type=column.get(Constant.DATA_TYPE),
-                column_type=column.get(Constant.COLUMN_TYPE),
-                is_hidden=column.get(Constant.IS_HIDDEN, False),
+                name=column.get("name", ""),
+                description=column.get("description", ""),
+                data_type=column.get("dataType", ""),
+                column_type=column.get("columnType", ""),
+                is_hidden=column.get("isHidden", False),
+                min=None,
+                max=None,
+                unique_count=None,
+                sample_values=None,
             )
             results.append(col)
 
@@ -345,7 +373,7 @@ class PowerBiAPI:
 
     def _fill_metadata_from_scan_result(self, workspace: Workspace) -> None:
         workspace.scan_result = self._get_scan_result(workspace)
-        workspace.datasets = self._get_workspace_datasets(workspace.scan_result)
+        workspace.datasets = self._get_workspace_datasets(workspace)
         # Fetch endorsements tag if it is enabled from configuration
         if self.__config.extract_endorsements_to_tags is False:
             logger.info(

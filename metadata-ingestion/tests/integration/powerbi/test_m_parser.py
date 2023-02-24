@@ -134,6 +134,8 @@ def test_snowflake_regular_case():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -160,6 +162,8 @@ def test_postgres_regular_case():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -185,6 +189,8 @@ def test_oracle_regular_case():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -210,6 +216,8 @@ def test_mssql_regular_case():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -253,6 +261,8 @@ def test_mssql_with_query():
             full_name="OrderDataSet.virtual_order_table",
             columns=[],
             measures=[],
+            row_count=None,
+            column_count=None,
         )
         reporter = PowerBiDashboardSourceReport()
 
@@ -292,6 +302,8 @@ def test_snowflake_native_query():
             full_name="OrderDataSet.virtual_order_table",
             columns=[],
             measures=[],
+            row_count=None,
+            column_count=None,
         )
         reporter = PowerBiDashboardSourceReport()
 
@@ -316,6 +328,8 @@ def test_native_query_disabled():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -335,6 +349,8 @@ def test_multi_source_table():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -364,6 +380,8 @@ def test_table_combine():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()
@@ -402,6 +420,8 @@ def test_expression_is_none():
         full_name="OrderDataSet.virtual_order_table",
         columns=[],
         measures=[],
+        row_count=None,
+        column_count=None,
     )
 
     reporter = PowerBiDashboardSourceReport()

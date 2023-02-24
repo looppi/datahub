@@ -55,7 +55,11 @@ class Column:
     description: Optional[str]
     data_type: Optional[str]
     is_hidden: bool
-    column_type: Optional[str]
+    column_type: str
+    min: Optional[str]
+    max: Optional[str]
+    unique_count: Optional[int]
+    sample_values: Optional[List[str]]
 
 
 @dataclass
@@ -64,6 +68,10 @@ class Measure:
     description: Optional[str]
     expression: Optional[str]
     is_hidden: bool
+    min: Optional[str]
+    max: Optional[str]
+    unique_count: Optional[int]
+    sample_values: Optional[List[str]]
 
 
 @dataclass
@@ -73,6 +81,8 @@ class Table:
     expression: Optional[str]
     columns: List[Column]
     measures: List[Measure]
+    row_count: Optional[int]
+    column_count: Optional[int]
 
 
 @dataclass
