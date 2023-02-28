@@ -231,6 +231,11 @@ class PowerBiDashboardSourceConfig(StatefulIngestionConfigBase):
         "be extracted. Admin API access is required if this setting is enabled",
     )
 
+    # Enable / Disable ingestion of orphan datasets
+    extract_orphan_datasets: bool = pydantic.Field(
+        default=False, description="Whether orphan datasets should be ingested"
+    )
+
     @validator("dataset_type_mapping")
     @classmethod
     def map_data_platform(cls, value):
